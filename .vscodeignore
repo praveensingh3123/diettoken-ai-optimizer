@@ -1,0 +1,7 @@
+.vscode/**
+.gitignore
+tsconfig.json
+src/**
+scratch/**
+package-lock.json
+*.vsix
