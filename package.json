@@ -1,0 +1,86 @@
+{
+  "name": "diettoken-ai-optimizer",
+  "displayName": "DietToken - AI Optimizer (v2.4.3)",
+  "description": "Token-Efficient Codebase Agent proxy for VS Code",
+  "version": "2.4.3",
+  "publisher": "praveensingh3123",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "start-mcp": "node ./out/mcp-server.js"
+  },
+  "bin": {
+    "diettoken": "./out/cli/index.js"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "dietToken.showStats",
+        "title": "DietToken: Show Savings Stats"
+      },
+      {
+        "command": "dietToken.simulateRequest",
+        "title": "DietToken: Simulate Sample Request (Test)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "diettoken-explorer",
+          "title": "DietToken (v2.4.1)",
+          "icon": "$(sparkle)"
+        }
+      ]
+    },
+    "views": {
+      "diettoken-explorer": [
+        {
+          "type": "webview",
+          "id": "dietToken.dashboard",
+          "name": "Dashboard"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "DietToken",
+      "properties": {
+        "dietToken.upstreamApiUrl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1/chat/completions",
+          "description": "The real API endpoint where DietToken should forward compressed requests (e.g., https://api.openai.com/v1/chat/completions)"
+        },
+        "dietToken.adminKey": {
+          "type": "string",
+          "default": "",
+          "description": "Enter your secret developer key to reveal advanced monitoring insights."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^3.11.6",
+    "@types/node": "^25.6.2",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "chalk": "^4.1.2",
+    "cli-progress": "^3.12.0",
+    "commander": "^14.0.3",
+    "express": "^4.19.2",
+    "diettoken-core": "file:./lib/diettoken-core-2.4.3.tgz"
+  }
+}
