@@ -20,7 +20,8 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "start-mcp": "node ./out/mcp-server.js",
-    "verify": "tsx src/cli.ts"
+    "verify": "tsx src/cli.ts",
+    "package": "npx --yes @vscode/vsce package --out ~/Desktop/"
   },
   "bin": {
     "diettoken": "./out/cli/index.js"
