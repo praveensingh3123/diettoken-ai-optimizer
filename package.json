@@ -1,8 +1,8 @@
 {
   "name": "diet-token-optimizer",
-  "displayName": "DietToken - AI Optimizer (v2.5.0)",
+  "displayName": "DietToken - AI Optimizer (v2.6.0)",
   "description": "Cut your OpenAI and Anthropic API bills by up to 40% without losing AI context.",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "publisher": "praveensingh3123",
   "icon": "icon.png",
   "engines": {
@@ -19,7 +19,8 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "start-mcp": "node ./out/mcp-server.js"
+    "start-mcp": "node ./out/mcp-server.js",
+    "verify": "tsx src/cli.ts"
   },
   "bin": {
     "diettoken": "./out/cli/index.js"
@@ -39,7 +40,7 @@
       "activitybar": [
         {
           "id": "diettoken-explorer",
-          "title": "DietToken (v2.4.1)",
+          "title": "DietToken (v2.6.0)",
           "icon": "$(sparkle)"
         }
       ]
@@ -73,6 +74,7 @@
     "@types/cli-progress": "^3.11.6",
     "@types/node": "^25.6.2",
     "@types/vscode": "^1.80.0",
+    "tsx": "^4.22.3",
     "typescript": "^6.0.3"
   },
   "dependencies": {
@@ -80,7 +82,7 @@
     "chalk": "^4.1.2",
     "cli-progress": "^3.12.0",
     "commander": "^14.0.3",
-    "express": "^4.19.2",
-    "diettoken-core": "file:./lib/diettoken-core-2.4.3.tgz"
+    "diettoken-core": "file:lib/diettoken-core-2.4.5.tgz",
+    "express": "^4.19.2"
   }
 }
