@@ -45,10 +45,7 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             this._view.webview.postMessage({
                 type: 'update',
                 tokens: tracker.getTotalSaved(),
-                dollars: tracker.getDollarsSaved(),
-                cacheTokens: tracker.getCacheSimulatedTokensSaved(),
-                cacheDollars: tracker.getCacheSimulatedDollarsSaved(),
-                compressionRatio: tracker.getCompressionRatio()
+                dollars: tracker.getDollarsSaved()
             });
         }
     }
@@ -241,7 +238,7 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         }
         .hero-sub { font-size: 0.75rem; margin-top: 8px; opacity: 0.6; }
         .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 4px 0; }
-        .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -266,12 +263,14 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         .value.amber { color: var(--cache); }
         .disclaimer {
             font-size: 0.62rem;
-            color: rgba(255,255,255,0.28);
+            color: rgba(255,255,255,0.35);
             text-align: center;
-            padding: 4px 8px;
+            padding: 8px;
             border-radius: 8px;
-            background: rgba(245,158,11,0.05);
-            border: 1px solid rgba(245,158,11,0.15);
+            background: rgba(0, 255, 136, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            margin-top: 16px;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -281,53 +280,32 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
     <div class="hero structural">
         <div class="hero-label">Tokens Pruned by DietToken</div>
         <div class="hero-value" id="tokens-saved">0</div>
-        <div class="hero-sub" id="compression-ratio">Calculating...</div>
     </div>
     <div class="stat-row">
         <div class="card">
             <div class="label">Direct Savings</div>
             <div class="value green" id="dollars-saved">$0.000</div>
         </div>
-        <div class="card">
-            <div class="label">Efficiency Rate</div>
-            <div class="value green" id="efficiency-rate">0%</div>
-        </div>
     </div>
 
     <hr class="divider">
 
-    <div class="section-title cache">☁️ Estimated Cache Leverage</div>
-    <div class="hero cache-sim">
-        <div class="hero-label">Provider Cache Discounts (Shadow Sim)</div>
-        <div class="hero-value" id="cache-dollars">$0.000</div>
-        <div class="hero-sub" id="cache-tokens">0 tokens estimated cached</div>
-    </div>
     <div class="disclaimer">
-        Estimated via Shadow Simulator · Anthropic 90% · OpenAI 50% · Gemini 75% · Actual savings may vary.
+        <strong>Your Code Never Leaves Your Machine</strong><br>
+        DietToken runs entirely locally. No cloud processing. No third-party servers. No data collection.
     </div>
-
-    <hr class="divider">
 
     <div class="footer">DietToken AI Optimizer &bull; v2.4.2</div>
 
     <script>
         const tokensEl = document.getElementById('tokens-saved');
         const dollarsEl = document.getElementById('dollars-saved');
-        const efficiencyEl = document.getElementById('efficiency-rate');
-        const compressionEl = document.getElementById('compression-ratio');
-        const cacheDollarsEl = document.getElementById('cache-dollars');
-        const cacheTokensEl = document.getElementById('cache-tokens');
 
         window.addEventListener('message', event => {
             const msg = event.data;
             if (msg.type === 'update') {
                 tokensEl.innerText = (msg.tokens || 0).toLocaleString();
                 dollarsEl.innerText = '$' + (msg.dollars || 0).toFixed(3);
-                const ratio = msg.compressionRatio || 0;
-                efficiencyEl.innerText = ratio.toFixed(1) + '%';
-                compressionEl.innerText = ratio.toFixed(1) + '% of original payload removed';
-                cacheDollarsEl.innerText = '$' + (msg.cacheDollars || 0).toFixed(3);
-                cacheTokensEl.innerText = (msg.cacheTokens || 0).toLocaleString() + ' tokens estimated cached';
             }
         });
 
