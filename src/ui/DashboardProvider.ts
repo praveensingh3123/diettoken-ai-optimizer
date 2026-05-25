@@ -295,7 +295,7 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         DietToken runs entirely locally. No cloud processing. No third-party servers. No data collection.
     </div>
 
-    <div class="footer">DietToken AI Optimizer &bull; v2.4.2</div>
+    <div class="footer">DietToken AI Optimizer &bull; v2.6.1</div>
 
     <script>
         const tokensEl = document.getElementById('tokens-saved');
