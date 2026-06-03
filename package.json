@@ -1,8 +1,8 @@
 {
   "name": "diet-token-optimizer",
-  "displayName": "DietToken - AI Optimizer (v2.6.1)",
+  "displayName": "DietToken - AI Optimizer (v2.7.0)",
   "description": "Cut your OpenAI and Anthropic API bills by up to 40% without losing AI context.",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "publisher": "praveensingh3123",
   "icon": "icon.png",
   "engines": {
@@ -41,7 +41,7 @@
       "activitybar": [
         {
           "id": "diettoken-explorer",
-          "title": "DietToken (v2.6.1)",
+          "title": "DietToken (v2.7.0)",
           "icon": "$(sparkle)"
         }
       ]
@@ -83,7 +83,7 @@
     "chalk": "^4.1.2",
     "cli-progress": "^3.12.0",
     "commander": "^14.0.3",
-    "diettoken-core": "file:lib/diettoken-core-2.4.5.tgz",
+    "diettoken-core": "file:lib/diettoken-core-2.4.6.tgz",
     "express": "^4.19.2"
   }
 }
