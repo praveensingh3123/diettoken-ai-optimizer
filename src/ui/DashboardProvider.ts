@@ -25,6 +25,8 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         webviewView.webview.onDidReceiveMessage(message => {
             if (message.type === 'ready') {
                 this._updateWebview();
+            } else if (message.type === 'setupProject') {
+                vscode.commands.executeCommand('dietToken.setupProject');
             }
         });
 
@@ -272,6 +274,30 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             margin-top: 16px;
             line-height: 1.4;
         }
+        .setup-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #0f111a;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+            margin-bottom: 16px;
+        }
+        .setup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+        }
+        .setup-btn:active {
+            transform: translateY(1px);
+        }
     </style>
 </head>
 <body>
@@ -281,6 +307,9 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
         <div class="hero-label">Tokens Pruned by DietToken</div>
         <div class="hero-value" id="tokens-saved">0</div>
     </div>
+    
+    <button class="setup-btn" id="setup-btn">🚀 Initialize Context Layer</button>
+
     <div class="stat-row">
         <div class="card">
             <div class="label">Direct Savings</div>
@@ -300,6 +329,15 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
     <script>
         const tokensEl = document.getElementById('tokens-saved');
         const dollarsEl = document.getElementById('dollars-saved');
+        const vscode = acquireVsCodeApi();
+
+        document.getElementById('setup-btn').addEventListener('click', () => {
+            vscode.postMessage({ type: 'setupProject' });
+            document.getElementById('setup-btn').innerText = 'Initializing...';
+            setTimeout(() => {
+                document.getElementById('setup-btn').innerText = '🚀 Initialize Context Layer';
+            }, 3000);
+        });
 
         window.addEventListener('message', event => {
             const msg = event.data;
@@ -309,7 +347,6 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
             }
         });
 
-        const vscode = acquireVsCodeApi();
         vscode.postMessage({ type: 'ready' });
     </script>
 </body>

@@ -70,6 +70,30 @@ export async function activate(context: vscode.ExtensionContext) {
     }
 
     // 4. Register Commands
+    const setupProjectCommand = vscode.commands.registerCommand('dietToken.setupProject', async () => {
+        const workspaceFolders = vscode.workspace.workspaceFolders;
+        if (!workspaceFolders || workspaceFolders.length === 0) {
+            vscode.window.showErrorMessage("DietToken: No workspace folder is currently open.");
+            return;
+        }
+        
+        const workspacePath = workspaceFolders[0].uri.fsPath;
+        const cliPath = path.join(context.extensionPath, 'node_modules', 'diettoken-core', 'out', 'cli.js');
+        
+        if (!fs.existsSync(cliPath)) {
+            vscode.window.showErrorMessage("DietToken: CLI engine not found inside extension package.");
+            return;
+        }
+
+        const cp = require('child_process');
+        try {
+            cp.execSync(`node "${cliPath}" init`, { cwd: workspacePath });
+            vscode.window.showInformationMessage("🚀 DietToken Context Layer initialized successfully for this project!");
+        } catch (error: any) {
+            vscode.window.showErrorMessage(`DietToken Setup Failed: ${error.message}`);
+        }
+    });
+
     const showStatsCommand = vscode.commands.registerCommand('dietToken.showStats', () => {
         vscode.window.showInformationMessage(
             `DietToken has saved you ${tracker.getTotalSaved().toLocaleString()} tokens so far!`
@@ -93,7 +117,7 @@ export async function activate(context: vscode.ExtensionContext) {
         }, 1500);
     });
 
-    context.subscriptions.push(showStatsCommand, simulateCommand);
+    context.subscriptions.push(setupProjectCommand, showStatsCommand, simulateCommand);
 
     // Cleanup
     context.subscriptions.push({
